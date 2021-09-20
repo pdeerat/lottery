@@ -11,7 +11,8 @@ class App extends React.Component {
     manager: '',
     participantCount: 0,
     prize: '',
-    value: ''
+    value: '',
+    message: ""
   };
 
   async componentDidMount() {
@@ -27,9 +28,13 @@ class App extends React.Component {
 
     const accounts = await web3.eth.getAccounts(); // Get list of accounts 
 
-    await lotteryContract.methods.enterLottery().send( 
-      { from: accounts[0], value: web3.utils.toWei(this.state.value)} // Assume current user is the first account in the accounts array, Convert to wei before sending transaction
+    this.setState({ message: "Waiting on transaction completion..." }); // Show message on waiting for transaction to finish
+
+    await lotteryContract.methods.enterLottery().send( // Send transaction to enterLottery method in contract
+      { from: accounts[0], value: web3.utils.toWei(this.state.value, 'ether')} // Assume current user is the first account in the accounts array, Convert to wei before sending transaction
     );
+
+    this.setState({ message: "Lottery entry successful!"}) // Show message on transaction completion
 
   };
 
@@ -55,12 +60,15 @@ class App extends React.Component {
           <div>
             <label>Amount of ether to enter: </label>
             <input
+              placeholder=">.01 ether"
               value={this.state.value} 
               onChange={(event) => this.setState({ value: event.target.value })} 
             />
           </div>
           <button>Enter</button>
         </form>
+        <hr />
+        <h2>{this.state.message}</h2>
       </div>
     );
   }
