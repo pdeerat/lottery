@@ -1,1 +1,3 @@
-# Eth-Lottery-DApp
+# Eth-Lottery Application
+
+Requires: MetaMask
