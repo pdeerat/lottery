@@ -7,7 +7,8 @@ import lottery from "./lottery";
 
 class App extends React.Component {
 
-  state = { // Don't forget to initialize state
+  // Initialize state variables
+  state = {
     manager: '',
     participantCount: 0,
     prize: '',
@@ -15,6 +16,7 @@ class App extends React.Component {
     message: ""
   };
 
+  // Call on page creation
   async componentDidMount() {
     const contractManager = await lotteryContract.methods.manager().call(); // Get current address of manager then add to state
     const players = await lotteryContract.methods.getParticipants().call();
@@ -23,6 +25,7 @@ class App extends React.Component {
     this.setState({ manager: contractManager, participantCount: players.length, prize: prize });
   };
 
+  // Enter Lottery
   onSubmit = async (e) => { // Arrow functions remove need for 'this' keyword
     e.preventDefault();
 
@@ -35,11 +38,20 @@ class App extends React.Component {
     );
 
     this.setState({ message: "Lottery entry successful!"}) // Show message on transaction completion
+  };
 
+  // Pick a winner
+  onClick = async () => {
+    const accounts = await web3.eth.getAccounts();
+
+    this.setState({ message: "Picking winner..." });
+    await lotteryContract.methods.getWinner().send({ from: accounts[0] }); // Send eth to winner (random-ish account who entered)
+
+    this.setState({ message: "A winner has been picked!" });
+    
   };
 
   render() {
-
     // Test console logs
     web3.eth.getAccounts()
       .then(console.log(`Web3 version: ${web3.version}`));  
@@ -68,6 +80,12 @@ class App extends React.Component {
           <button>Enter</button>
         </form>
         <hr />
+
+        <h4>Pick Lottery Winner</h4>
+        <button onClick={this.onClick}>Pick winner</button>
+
+        <hr />
+
         <h2>{this.state.message}</h2>
       </div>
     );
