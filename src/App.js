@@ -82,7 +82,7 @@ class App extends React.Component {
         <h2>Pick Lottery Winner</h2>
         <button className="pck-winner-btn" onClick={this.onClick}>Pick winner</button>
 
-        <h2>{this.state.message}</h2>
+        <h2 className="alert-message">{this.state.message}</h2>
       </div>
     );
   }

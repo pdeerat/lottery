@@ -73,3 +73,10 @@ button:hover{
   transform: scale(1.1);
   cursor: pointer;
 }
+
+.alert-message{
+  color: rgba(255, 255, 255, 0.685);
+  font-weight: 900;
+  font-family: monospace, 'Roboto', sans-serif;
+  font-size: 2rem;
+}
