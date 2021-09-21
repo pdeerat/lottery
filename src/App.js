@@ -3,17 +3,16 @@ import React from "react";
 
 import web3 from './web3';
 import lotteryContract from './lottery';
-import lottery from "./lottery";
 
 class App extends React.Component {
-
   // Initialize state variables
   state = {
     manager: '',
     participantCount: 0,
     prize: '',
     value: '',
-    message: ""
+    message: '',
+    lastWinner: ''
   };
 
   // Call on page creation
@@ -46,9 +45,9 @@ class App extends React.Component {
 
     this.setState({ message: "Picking winner..." });
     await lotteryContract.methods.getWinner().send({ from: accounts[0] }); // Send eth to winner (random-ish account who entered)
-
-    this.setState({ message: "A winner has been picked!" });
     
+    this.setState({ lastWinner: await lotteryContract.methods.lastWinner().call() }); // Get last winner of lottery to display on page
+    this.setState({ message: `The winner is: ${this.state.lastWinner}` });
   };
 
   render() {
@@ -56,35 +55,33 @@ class App extends React.Component {
     web3.eth.getAccounts()
       .then(console.log(`Web3 version: ${web3.version}`));  
     console.log(this.state.manager);
+    console.log(this.state.prize);
 
     return (
-      <div>
-        <h2>Eth-Lottery</h2>
+      <div class="app-container">
+        <h1>Ethereum Lottery</h1>
         <p>Lottery manager: <strong>{this.state.manager}</strong></p>
         <p>
           There are currently: <strong>{this.state.participantCount}</strong> participant(s) entered to win <strong>{web3.utils.fromWei(this.state.prize, 'ether')}</strong> ether.
-        </p>
-        
-        <hr/>
+        </p> 
 
         <form onSubmit={this.onSubmit}>
-          <h4>Want to enter?</h4>
+          <h2>Want to enter?</h2>
           <div>
             <label>Amount of ether to enter: </label>
             <input
+              className="ether-input"
               placeholder=">.01 ether"
               value={this.state.value} 
               onChange={(event) => this.setState({ value: event.target.value })} 
             />
+            <button className="enter-btn">Enter Lottery</button>
           </div>
-          <button>Enter</button>
         </form>
-        <hr />
 
-        <h4>Pick Lottery Winner</h4>
-        <button onClick={this.onClick}>Pick winner</button>
+        <h2>Pick Lottery Winner</h2>
+        <button className="pck-winner-btn" onClick={this.onClick}>Pick winner</button>
 
-        <hr />
 
         <h2>{this.state.message}</h2>
       </div>
