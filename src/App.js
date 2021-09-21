@@ -68,7 +68,7 @@ class App extends React.Component {
         <form onSubmit={this.onSubmit}>
           <h2>Want to enter?</h2>
           <div>
-            <label>Amount of ether to enter: </label>
+            <label>Amount of ether to contribute: </label>
             <input
               className="ether-input"
               placeholder=">.01 ether"
