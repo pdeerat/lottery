@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family:  'Roboto', sans-serif;
   scroll-behavior: smooth;
   background: rgb(2,0,36);
   background: linear-gradient(0deg, rgb(19, 16, 87) 10%, rgb(20, 38, 119) 40%, rgb(14, 66, 90) 100%);
@@ -13,11 +15,8 @@ body {
   color: white;
 }
 
-h1, h2{
+h1, h2, p{
   font-weight: 700;
-}
-
-p, h1, h2{
   text-align: center;
 }
 
@@ -27,6 +26,8 @@ form{
 
 p strong{
   text-decoration: underline;
+  font-weight: 900;
+  color: rgb(255, 217, 0);
 }
 
 .ether-input{
@@ -55,8 +56,20 @@ p strong{
 .pck-winner-btn{
   width: 15%;
   padding: 1rem 2rem;
-  color: white;
+  color: black;
   background: none;
   border: 2px solid white;
   margin: 0 auto;
+  font-family:  'Roboto', sans-serif;
+  font-weight: 900;
+  background: rgb(255, 217, 0);
+}
+
+button{
+  transition: 0.3s ease-in-out;
+}
+
+button:hover{
+  transform: scale(1.1);
+  cursor: pointer;
 }
